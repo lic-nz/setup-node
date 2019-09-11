@@ -45,7 +45,7 @@ function writeRegistryToFile(
   }
   // Remove http: or https: from front of registry.
   const authString: string =
-    registryUrl.replace(/(^\w+:|^)/, '') + ':_authToken=${NODE_AUTH_TOKEN}';
+    registryUrl.replace(/(^\w+:|^)/, '') + ':_authToken=${{ secrets.NPM_AUTH_TOKEN }}';
   const registryString: string = scope
     ? `${scope}:registry=${registryUrl}`
     : `registry=${registryUrl}`;
@@ -54,5 +54,5 @@ function writeRegistryToFile(
   fs.writeFileSync(fileLocation, newContents);
   core.exportVariable('NPM_CONFIG_USERCONFIG', fileLocation);
   // Export empty node_auth_token so npm doesn't complain about not being able to find it
-  //core.exportVariable('NODE_AUTH_TOKEN', 'XXXXX-XXXXX-XXXXX-XXXXX');
+  core.exportVariable('NODE_AUTH_TOKEN', 'XXXXX-XXXXX-XXXXX-XXXXX');
 }
